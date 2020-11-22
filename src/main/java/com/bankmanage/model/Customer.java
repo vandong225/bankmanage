@@ -1,7 +1,8 @@
 package com.bankmanage.model;
 import lombok.*;
+
 @Data
-@RequiredArgsConstructor
+@NoArgsConstructor
 public class Customer extends Person{
 
 }
