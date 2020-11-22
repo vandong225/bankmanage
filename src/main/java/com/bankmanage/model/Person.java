@@ -1,6 +1,5 @@
 package com.bankmanage.model;
 import java.util.Date;
-import javax.xml.bind.DataBindingException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 @Data
