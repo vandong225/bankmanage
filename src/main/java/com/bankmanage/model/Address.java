@@ -6,9 +6,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @Entity(name = "address")
 public class Address implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false)
 	private long id;
      private String des;
@@ -26,7 +23,8 @@ public class Address implements Serializable {
      private String city;
      private String street;
      private String country;
-     @JsonBackReference
-     @OneToOne(mappedBy = "address")
-     private Person person;
+//     
+//     @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
+//     @JsonManagedReference
+//     private Employee employee;
 }

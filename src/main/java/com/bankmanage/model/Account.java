@@ -1,30 +1,31 @@
 package com.bankmanage.model;
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class Account implements Serializable {
-   private int idAcc;
-   private String type;
+@NoArgsConstructor(force=true)
+@MappedSuperclass
+public abstract class Account extends Timestamp implements Serializable {
+	@Id
+    @GeneratedValue()
+    @Column(name = "id", updatable = false, nullable = false)
+	private Long idAcc;
    private float balance;
-   @Column
-  	private Date createdAt;
-     @Column
-     private Date updatedAt;
-  	@PrePersist
-  	   void createdAt() {
-  		   this.createdAt = new Date();
-  		} 
-  	@PreUpdate
-  	   void updatedAt() {
-  		   this.updatedAt = new Date();
-  		} 
+   @Enumerated(EnumType.STRING)
+	private final TypeAccount type;
+	public static enum TypeAccount {
+		CREDIT, DEBIT
+	}
+
 }

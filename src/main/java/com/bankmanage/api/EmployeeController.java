@@ -1,9 +1,12 @@
 package com.bankmanage.api;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,68 +17,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bankmanage.exception.NotFoundException;
 import com.bankmanage.model.Employee;
-import com.bankmanage.repository.AddressRepository;
-import com.bankmanage.repository.EmployeeRepository;
-import com.bankmanage.repository.FullNameRepository;
-
-import lombok.NoArgsConstructor;
+import com.bankmanage.service.EmployeeService;
 
 
 @RestController
 @RequestMapping(path = "/api/v1", produces = "application/json")
+@CrossOrigin(origins = "*")
 public class EmployeeController {
 	@Autowired
-	private EmployeeRepository repository;
-	
-	@Autowired
-	private AddressRepository addressRepo;
-	
-	@Autowired
-	private FullNameRepository fullNameRepo;
-
-	public EmployeeController(EmployeeRepository repository, AddressRepository addressRepo, FullNameRepository fullNameRepo) {
-		this.repository = repository;
-		this.addressRepo = addressRepo;
-		this.fullNameRepo = fullNameRepo;
-	}
+	private EmployeeService employeeService;
 	
 	@GetMapping("/employees")
 	@ResponseStatus(code = HttpStatus.OK)
-	List<Employee> getAll() {
-		return repository.findAll();
+	public CollectionModel<EntityModel<Employee>> getAll() {
+		return employeeService.getAllEmployee();
 	}
 	
 	@GetMapping("/employee/{id}")
-	Employee getEmployee(@PathVariable long id) throws NotFoundException {
-		return repository.findById(id).orElseThrow(() -> new NotFoundException("khong tim thay employee "+id));
+ 	public EntityModel<Employee> getEmployee(@PathVariable long id) {
+		return employeeService.getEmployeeById(id);
 	}
 	
 	@PostMapping("/employee")
-	Employee newEmployee(@RequestBody Employee newEmployee) {
-	    return repository.save(newEmployee);
+	public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee newEmployee) {
+		return employeeService.createEmployee(newEmployee);
 	  }
 	
-	 @PutMapping("/employees/{id}")
-	  Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
-
-	    return repository.findById(id)
-	      .map(employee -> {
-	        employee.setFullName(newEmployee.getFullName());
-//	        employee.setAddress(newEmployee.getAddress());
-	        employee.setIdCard(newEmployee.getIdCard());
-	        employee.setDob(newEmployee.getDob());
-	        return repository.save(employee);
-	      })
-	      .orElseGet(() -> {
-	        newEmployee.setId(id);
-	        return repository.save(newEmployee);
-	      });
+	 @PutMapping("/employee/{id}")
+	 public EntityModel<Employee> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+		return employeeService.updateEmployee(id, newEmployee);
 	  }
 	 
-	 @DeleteMapping("/employees/{id}")
-	  void deleteEmployee(@PathVariable Long id) {
-	    repository.deleteById(id);
+	 @DeleteMapping("/employee/{id}")
+	 ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+		 return employeeService.deleteEmployee(id);
 	  }
 }
