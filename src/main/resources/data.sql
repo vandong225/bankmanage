@@ -1,4 +1,6 @@
-insert into address(street, district, city, country) values('quang tien','nam tu liem', 'ha noi','viet nam');
+use bankmanager;
+
+insert into address(street, des, district, city, country) values('quang tien','123','nam tu liem', 'ha noi','viet nam');
 
 insert into fullname(first_name, mid_name, last_name) values('Bui','Van', 'Dong');
 
