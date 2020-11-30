@@ -42,15 +42,26 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public EntityModel<Customer> updateCustomer(Long id, Customer customer) {
+	public EntityModel<Customer> updateCustomer(Long id, Customer newCustomer) {
 		// TODO Auto-generated method stub
-		return null;
+		Customer customerPut = repository.findById(id)
+			      .map(customer -> {
+			    	  customer.setFullName(newCustomer.getFullName());
+			    	  customer.setAddress(newCustomer.getAddress());
+			    	  customer.setIdCard(newCustomer.getIdCard());
+			    	  customer.setDob(newCustomer.getDob());
+			        return repository.save(customer);
+			      })
+			      .orElseThrow(() -> new ResourceNotFoundException("not found customer "+ id));
+				 System.out.println(customerPut);
+				 return assembler.toModel(customerPut);
 	}
 
 	@Override
 	public ResponseEntity<String> deleteCustomer(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		 repository.deleteById(id);
+		 return new ResponseEntity<String>("Delete customer "+id, HttpStatus.OK);
 	}
 
 	@Override
@@ -63,7 +74,8 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public EntityModel<Customer> getCustomerById(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		Customer customer = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found customer "+ id));
+		return assembler.toModel(customer);
 	}
 
 	
