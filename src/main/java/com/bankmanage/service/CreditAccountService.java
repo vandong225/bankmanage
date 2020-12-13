@@ -14,4 +14,5 @@ public interface CreditAccountService {
 	   public abstract String deleteCreditAccount(Long id);
 	   public abstract List<CreditAccount> getAllCreditAccount();
 	   public abstract CreditAccount getCreditAccountById(Long id);
+	   public abstract List<CreditAccount> getAccountByDebt();
 }

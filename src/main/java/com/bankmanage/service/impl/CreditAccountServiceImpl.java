@@ -70,5 +70,11 @@ public class CreditAccountServiceImpl implements CreditAccountService {
 		CreditAccount creditAccount = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("khong tim thay account" + id));
 		return creditAccount;
 	}
+	
+	@Override
+	public List<CreditAccount> getAccountByDebt() {
+		List<CreditAccount> accounts = repository.findAllByOrderByDebtDesc();
+		return accounts;
+	}
 
 }

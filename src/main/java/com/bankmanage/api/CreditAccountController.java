@@ -55,4 +55,11 @@ public class CreditAccountController {
 	 ResponseEntity<String> deleteCredit(@PathVariable Long id) {
 		 return ResponseEntity.ok(creditAccountService.deleteCreditAccount(id));
 	  }
+	 
+	 @GetMapping("/debt")
+	 ResponseEntity<List<CreditAccount>> getAccountByDebt(){
+		 return ResponseEntity.ok(creditAccountService.getAccountByDebt());
+	 }
+
+	 
 }
