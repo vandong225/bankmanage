@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.bankmanage.api.CreditAccountController;
 import com.bankmanage.api.DebitAccountController;
-import com.bankmanage.assembler.CreditAccountModelAssembler;
-import com.bankmanage.assembler.DebitAccountModelAssembler;
 import com.bankmanage.exception.ResourceNotFoundException;
 import com.bankmanage.model.CreditAccount;
 import com.bankmanage.model.DebitAccount;
@@ -31,18 +29,16 @@ public class CreditAccountServiceImpl implements CreditAccountService {
 	@Autowired
 	private CreditAccountRepository repository;
 	
-	@Autowired
-	private  CreditAccountModelAssembler assembler;
 
 	@Override
-	public ResponseEntity<EntityModel<CreditAccount>> createCreditAccount(CreditAccount newCreditAccount) {
+	public CreditAccount createCreditAccount(CreditAccount newCreditAccount) {
 		// TODO Auto-generated method stub
-		EntityModel<CreditAccount> creditAccount = assembler.toModel(repository.save(newCreditAccount));
-		return ResponseEntity.created(creditAccount.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(creditAccount);
+		CreditAccount creditAccount = repository.save(newCreditAccount);
+		return creditAccount;
 	}
 
 	@Override
-	public EntityModel<CreditAccount> updateCreditAccount(Long id, CreditAccount creditAccount) {
+	public CreditAccount updateCreditAccount(Long id, CreditAccount creditAccount) {
 		// TODO Auto-generated method stub
 		CreditAccount creditAccountPut = repository.findById(id)
 			      .map(account -> {
@@ -51,28 +47,28 @@ public class CreditAccountServiceImpl implements CreditAccountService {
 			        return repository.save(account);
 			      })
 			      .orElseThrow(() -> new ResourceNotFoundException("not found credit account "+ id));
-				 return assembler.toModel(creditAccountPut);
+				 return creditAccountPut;
 	}
 
 	@Override
-	public ResponseEntity<String> deleteCreditAccount(Long id) {
+	public String deleteCreditAccount(Long id) {
 		// TODO Auto-generated method stub
 		repository.deleteById(id);
-		 return new ResponseEntity<String>("Delete credit account "+id, HttpStatus.OK);
+		 return "Delete credit account "+id;
 	}
 
 	@Override
-	public CollectionModel<EntityModel<CreditAccount>> getAllCreditAccount() {
+	public List<CreditAccount> getAllCreditAccount() {
 		// TODO Auto-generated method stub
-		List<EntityModel<CreditAccount>> listCreditAccount = repository.findAll().stream()//
-				.map(assembler::toModel).collect(toList());
-		return CollectionModel.of(listCreditAccount,linkTo(methodOn(CreditAccountController.class).getAll()).withSelfRel());
+		List<CreditAccount> listCreditAccount = repository.findAll();
+		return listCreditAccount;
 	}
 
 	@Override
-	public EntityModel<CreditAccount> getCreditAccountById(Long id) {
+	public CreditAccount getCreditAccountById(Long id) {
 		// TODO Auto-generated method stub
-		return null;
+		CreditAccount creditAccount = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("khong tim thay account" + id));
+		return creditAccount;
 	}
 
 }

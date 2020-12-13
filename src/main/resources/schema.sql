@@ -31,6 +31,18 @@
 	updated_at timestamp
 	);
 	
+	CREATE TABLE if not exists Customer (
+	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	id_card VARCHAR(30) NOT NULL,
+	dob date NOT NULL,
+	full_name_id INT(6) UNSIGNED NOT NULL,
+	address_id INT(6) UNSIGNED NOT NULL,
+	FOREIGN KEY (full_name_id) REFERENCES FullName(id),
+	FOREIGN KEY (address_id) REFERENCES Address(id),
+	created_at timestamp,
+	updated_at timestamp
+	);
+	
 	CREATE TABLE if not exists Debit_Account (
 	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	balance decimal(30) NOT NULL,
@@ -38,7 +50,11 @@
 	min_balance decimal(30) NOT NULL,
 	type NVARCHAR(30),
 	created_at timestamp,
-	updated_at timestamp
+	updated_at timestamp,
+	customer_id INT(6) UNSIGNED NOT NULL,
+	employee_id INT(6) UNSIGNED NOT NULL,
+	FOREIGN KEY (customer_id) REFERENCES Customer(id),
+	FOREIGN KEY (employee_id) REFERENCES Employee(id),
 	);
 	
 	CREATE TABLE if not exists Credit_Account (
@@ -47,21 +63,11 @@
 	debt decimal(30),
 	type NVARCHAR(30),
 	created_at timestamp,
-	updated_at timestamp
+	updated_at timestamp,
+	customer_id INT(6) UNSIGNED NOT NULL,
+	employee_id INT(6) UNSIGNED NOT NULL,
+	FOREIGN KEY (customer_id) REFERENCES Customer(id),
+	FOREIGN KEY (employee_id) REFERENCES Employee(id),
 	);
 	
-	CREATE TABLE if not exists Customer (
-	id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY NOT NULL,
-	id_card VARCHAR(30) NOT NULL,
-	dob date NOT NULL,
-	full_name_id INT(6) UNSIGNED NOT NULL,
-	address_id INT(6) UNSIGNED NOT NULL,
-	credit_id INT(6) UNSIGNED NOT NULL,
-	debit_id INT(6) UNSIGNED NOT NULL,
-	FOREIGN KEY (full_name_id) REFERENCES FullName(id),
-	FOREIGN KEY (address_id) REFERENCES Address(id),
-	FOREIGN KEY (credit_id) REFERENCES Credit_Account(id),
-	FOREIGN KEY (debit_id) REFERENCES Debit_Account(id),
-	created_at timestamp,
-	updated_at timestamp
-	);
+	

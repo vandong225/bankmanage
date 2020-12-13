@@ -42,4 +42,5 @@ public abstract class Person extends Timestamp implements Serializable {
    @OneToOne(targetEntity = Address.class, cascade = CascadeType.ALL, orphanRemoval = true)
    @JoinColumn(name = "address_id", referencedColumnName = "id")
    protected Address address;
+   
 }
