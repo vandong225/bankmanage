@@ -1,5 +1,7 @@
 package com.bankmanage.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -30,27 +32,27 @@ public class CreditAccountController {
 	
 	@GetMapping("/accounts")
 	@ResponseStatus(code = HttpStatus.OK)
-	public CollectionModel<EntityModel<CreditAccount>> getAll() {
-		return creditAccountService.getAllCreditAccount();
+	public ResponseEntity<List<CreditAccount>> getAll() {
+		return ResponseEntity.ok(creditAccountService.getAllCreditAccount());
 	}
 	
 	@GetMapping("/account/{id}")
- 	public EntityModel<CreditAccount> getCredit(@PathVariable long id) {
-		return creditAccountService.getCreditAccountById(id);
+ 	public ResponseEntity<CreditAccount> getCredit(@PathVariable long id) {
+		return ResponseEntity.ok(creditAccountService.getCreditAccountById(id));
 	}
 	
 	@PostMapping("/account")
-	public ResponseEntity<EntityModel<CreditAccount>> newCredit(@RequestBody CreditAccount creditAccount) {
-		return creditAccountService.createCreditAccount(creditAccount);
+	public ResponseEntity<CreditAccount> newCredit(@RequestBody CreditAccount creditAccount) {
+		return ResponseEntity.ok(creditAccountService.createCreditAccount(creditAccount));
 	  }
 	
 	 @PutMapping("/account/{id}")
-	 public EntityModel<CreditAccount> replaceCredit(@RequestBody CreditAccount creditAccount, @PathVariable Long id) {
-		return creditAccountService.updateCreditAccount(id, creditAccount);
+	 public ResponseEntity<CreditAccount> replaceCredit(@RequestBody CreditAccount creditAccount, @PathVariable Long id) {
+		return ResponseEntity.ok(creditAccountService.updateCreditAccount(id, creditAccount));
 	  }
 	 
 	 @DeleteMapping("/account/{id}")
 	 ResponseEntity<String> deleteCredit(@PathVariable Long id) {
-		 return creditAccountService.deleteCreditAccount(id);
+		 return ResponseEntity.ok(creditAccountService.deleteCreditAccount(id));
 	  }
 }

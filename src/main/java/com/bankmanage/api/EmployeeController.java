@@ -1,6 +1,8 @@
 package com.bankmanage.api;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -30,27 +32,27 @@ public class EmployeeController {
 	
 	@GetMapping("/employees")
 	@ResponseStatus(code = HttpStatus.OK)
-	public CollectionModel<EntityModel<Employee>> getAll() {
-		return employeeService.getAllEmployee();
+	public ResponseEntity<List<Employee>> getAll() {
+		return ResponseEntity.ok(employeeService.getAllEmployee());
 	}
 	
 	@GetMapping("/employee/{id}")
- 	public EntityModel<Employee> getEmployee(@PathVariable long id) {
-		return employeeService.getEmployeeById(id);
+ 	public ResponseEntity<Employee> getEmployee(@PathVariable long id) {
+		return ResponseEntity.ok(employeeService.getEmployeeById(id));
 	}
 	
 	@PostMapping("/employee")
-	public ResponseEntity<EntityModel<Employee>> newEmployee(@RequestBody Employee newEmployee) {
-		return employeeService.createEmployee(newEmployee);
+	public ResponseEntity<Employee> newEmployee(@RequestBody Employee newEmployee) {
+		return ResponseEntity.ok(employeeService.createEmployee(newEmployee));
 	  }
 	
 	 @PutMapping("/employee/{id}")
-	 public EntityModel<Employee> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+	 public Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
 		return employeeService.updateEmployee(id, newEmployee);
 	  }
 	 
 	 @DeleteMapping("/employee/{id}")
 	 ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
-		 return employeeService.deleteEmployee(id);
+		 return ResponseEntity.ok(employeeService.deleteEmployee(id));
 	  }
 }

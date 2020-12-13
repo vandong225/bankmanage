@@ -1,5 +1,7 @@
 package com.bankmanage.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -30,27 +32,27 @@ public class DebitAccountController {
 	
 	@GetMapping("/accounts")
 	@ResponseStatus(code = HttpStatus.OK)
-	public CollectionModel<EntityModel<DebitAccount>> getAll() {
-		return debitAccountService.getAllDebitAccount();
+	public ResponseEntity<List<DebitAccount>> getAll() {
+		return ResponseEntity.ok(debitAccountService.getAllDebitAccount());
 	}
 	
 	@GetMapping("/account/{id}")
- 	public EntityModel<DebitAccount> getDebit(@PathVariable long id) {
-		return debitAccountService.getDebitAccountById(id);
+ 	public ResponseEntity<DebitAccount> getDebit(@PathVariable long id) {
+		return ResponseEntity.ok(debitAccountService.getDebitAccountById(id));
 	}
 	
 	@PostMapping("/account")
-	public ResponseEntity<EntityModel<DebitAccount>> newDebit(@RequestBody DebitAccount debitAccount) {
-		return debitAccountService.createDebitAccount(debitAccount);
+	public ResponseEntity<DebitAccount> newDebit(@RequestBody DebitAccount debitAccount) {
+		return ResponseEntity.ok(debitAccountService.createDebitAccount(debitAccount));
 	  }
 	
 	 @PutMapping("/account/{id}")
-	 public EntityModel<DebitAccount> replaceDebit(@RequestBody DebitAccount debitAccount, @PathVariable Long id) {
-		return debitAccountService.updateDebitAccount(id, debitAccount);
+	 public ResponseEntity<DebitAccount> replaceDebit(@RequestBody DebitAccount debitAccount, @PathVariable Long id) {
+		return ResponseEntity.ok(debitAccountService.updateDebitAccount(id, debitAccount));
 	  }
 	 
 	 @DeleteMapping("/account/{id}")
 	 ResponseEntity<String> deleteDebit(@PathVariable Long id) {
-		 return debitAccountService.deleteDebitAccount(id);
+		 return ResponseEntity.ok(debitAccountService.deleteDebitAccount(id));
 	  }
 }

@@ -1,5 +1,7 @@
 package com.bankmanage.service;
 
+import java.util.List;
+
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
@@ -8,13 +10,13 @@ import org.springframework.http.ResponseEntity;
 import com.bankmanage.model.Customer;
 
 public interface CustomerService {
-	public abstract ResponseEntity<EntityModel<Customer>> createCustomer(Customer customer);
+	public abstract Customer createCustomer(Customer customer);
 
-	public abstract EntityModel<Customer> updateCustomer(Long id, Customer customer);
+	public abstract Customer updateCustomer(Long id, Customer customer);
 
-	public abstract ResponseEntity<String> deleteCustomer(Long id);
+	public abstract String deleteCustomer(Long id);
 
-	public abstract CollectionModel<EntityModel<Customer>> getAllCustomer();
+	public abstract List<Customer> getAllCustomer();
 
-	public abstract EntityModel<Customer> getCustomerById(Long id);
+	public abstract Customer getCustomerById(Long id);
 }

@@ -1,6 +1,8 @@
 package com.bankmanage.api;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
@@ -28,29 +30,29 @@ public class CustomerController {
 	@Autowired
 	private CustomerService CustomerService;
 	
-	@GetMapping("/Customers")
+	@GetMapping("/customers")
 	@ResponseStatus(code = HttpStatus.OK)
-	public CollectionModel<EntityModel<Customer>> getAll() {
-		return CustomerService.getAllCustomer();
+	public ResponseEntity<List<Customer>> getAll() {
+		return ResponseEntity.ok(CustomerService.getAllCustomer());
 	}
 	
-	@GetMapping("/Customer/{id}")
- 	public EntityModel<Customer> getCustomer(@PathVariable long id) {
-		return CustomerService.getCustomerById(id);
+	@GetMapping("/customer/{id}")
+ 	public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
+		return ResponseEntity.ok(CustomerService.getCustomerById(id));
 	}
 	
-	@PostMapping("/Customer")
-	public ResponseEntity<EntityModel<Customer>> newCustomer(@RequestBody Customer newCustomer) {
-		return CustomerService.createCustomer(newCustomer);
+	@PostMapping("/customer")
+	public ResponseEntity<Customer> newCustomer(@RequestBody Customer newCustomer) {
+		return ResponseEntity.ok(CustomerService.createCustomer(newCustomer));
 	  }
 	
-	 @PutMapping("/Customer/{id}")
-	 public EntityModel<Customer> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id) {
-		return CustomerService.updateCustomer(id, newCustomer);
+	 @PutMapping("/customer/{id}")
+	 public ResponseEntity<Customer> replaceCustomer(@RequestBody Customer newCustomer, @PathVariable Long id) {
+		return ResponseEntity.ok(CustomerService.updateCustomer(id, newCustomer));
 	  }
 	 
-	 @DeleteMapping("/Customer/{id}")
+	 @DeleteMapping("/customer/{id}")
 	 ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
-		 return CustomerService.deleteCustomer(id);
+		 return ResponseEntity.ok(CustomerService.deleteCustomer(id));
 	  }
 }

@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 
 import com.bankmanage.api.DebitAccountController;
 import com.bankmanage.api.EmployeeController;
-import com.bankmanage.assembler.DebitAccountModelAssembler;
-import com.bankmanage.assembler.EmployeeModelAssembler;
 import com.bankmanage.exception.ResourceNotFoundException;
 import com.bankmanage.model.DebitAccount;
 import com.bankmanage.model.Employee;
@@ -31,18 +29,16 @@ public class DebitAccountServiceImpl implements DebitAccountService {
 	@Autowired
 	private DebitAccountRepository repository;
 	
-	@Autowired
-	private DebitAccountModelAssembler assembler;
 
 	@Override
-	public ResponseEntity<EntityModel<DebitAccount>> createDebitAccount(DebitAccount debitAccount) {
+	public DebitAccount createDebitAccount(DebitAccount debitAccount) {
 		// TODO Auto-generated method stub
-		EntityModel<DebitAccount> entityModel = assembler.toModel(repository.save(debitAccount));
-		return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+		DebitAccount entityModel = repository.save(debitAccount);
+		return entityModel;
 	}
 
 	@Override
-	public EntityModel<DebitAccount> updateDebitAccount(Long id, DebitAccount debitAccount) {
+	public DebitAccount updateDebitAccount(Long id, DebitAccount debitAccount) {
 		// TODO Auto-generated method stub
 
 		DebitAccount debitAccountPut = repository.findById(id)
@@ -53,29 +49,28 @@ public class DebitAccountServiceImpl implements DebitAccountService {
 	        return repository.save(account);
 	      })
 	      .orElseThrow(() -> new ResourceNotFoundException("not found debit account "+ id));
-		 return assembler.toModel(debitAccountPut);
+		 return debitAccountPut;
 	}
 
 	@Override
-	public ResponseEntity<String> deleteDebitAccount(Long id) {
+	public String deleteDebitAccount(Long id) {
 		// TODO Auto-generated method stub
 		 repository.deleteById(id);
-		 return new ResponseEntity<String>("Delete debit account "+id, HttpStatus.OK);
+		 return "Delete debit account "+id;
 	}
 
 	@Override
-	public CollectionModel<EntityModel<DebitAccount>> getAllDebitAccount() {
+	public List<DebitAccount> getAllDebitAccount() {
 		// TODO Auto-generated method stub
-		List<EntityModel<DebitAccount>> listDebitAccount = repository.findAll().stream()//
-				.map(assembler::toModel).collect(toList());
-		return CollectionModel.of(listDebitAccount,linkTo(methodOn(DebitAccountController.class).getAll()).withSelfRel());
+		List<DebitAccount> listDebitAccount = repository.findAll();
+		return listDebitAccount;
 	}
 
 	@Override
-	public EntityModel<DebitAccount> getDebitAccountById(Long id) {
+	public DebitAccount getDebitAccountById(Long id) {
 		// TODO Auto-generated method stub
 		DebitAccount debitAccount = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("khong tim thay account" + id));
-		return assembler.toModel(debitAccount);
+		return debitAccount;
 	}
 	
 

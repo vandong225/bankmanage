@@ -6,7 +6,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,5 +31,15 @@ public abstract class Account extends Timestamp implements Serializable {
 	public static enum TypeAccount {
 		CREDIT, DEBIT
 	}
+	
+	 @ManyToOne
+	 @JsonBackReference
+	 @JoinColumn(name="customer_id")
+	 private Customer customer;
+	 
+	 @ManyToOne
+	 @JsonBackReference
+	 @JoinColumn(name="employee_id")
+	 private Employee employee;
 
 }
