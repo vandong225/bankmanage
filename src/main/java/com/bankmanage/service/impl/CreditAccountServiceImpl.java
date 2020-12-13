@@ -1,26 +1,14 @@
 package com.bankmanage.service.impl;
 
-import static java.util.stream.Collectors.toList;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.bankmanage.api.CreditAccountController;
-import com.bankmanage.api.DebitAccountController;
 import com.bankmanage.exception.ResourceNotFoundException;
 import com.bankmanage.model.CreditAccount;
-import com.bankmanage.model.DebitAccount;
 import com.bankmanage.repository.CreditAccountRepository;
-import com.bankmanage.repository.DebitAccountRepository;
 import com.bankmanage.service.CreditAccountService;
 
 @Service
