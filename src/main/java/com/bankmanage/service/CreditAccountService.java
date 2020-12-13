@@ -15,4 +15,6 @@ public interface CreditAccountService {
 	   public abstract List<CreditAccount> getAllCreditAccount();
 	   public abstract CreditAccount getCreditAccountById(Long id);
 	   public abstract List<CreditAccount> getAccountByDebt();
+	   public abstract CreditAccount updatePurchase(long id, float money);
+	   public abstract CreditAccount updatePayment(long id, float money);
 }

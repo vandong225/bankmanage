@@ -19,8 +19,10 @@ import com.bankmanage.api.DebitAccountController;
 import com.bankmanage.exception.ResourceNotFoundException;
 import com.bankmanage.model.CreditAccount;
 import com.bankmanage.model.DebitAccount;
+import com.bankmanage.model.HistoryTranfer;
 import com.bankmanage.repository.CreditAccountRepository;
 import com.bankmanage.repository.DebitAccountRepository;
+import com.bankmanage.repository.HistoryTranferRepository;
 import com.bankmanage.service.CreditAccountService;
 
 @Service
@@ -29,6 +31,8 @@ public class CreditAccountServiceImpl implements CreditAccountService {
 	@Autowired
 	private CreditAccountRepository repository;
 	
+	@Autowired
+	private HistoryTranferRepository historyRepo;
 
 	@Override
 	public CreditAccount createCreditAccount(CreditAccount newCreditAccount) {
@@ -77,4 +81,33 @@ public class CreditAccountServiceImpl implements CreditAccountService {
 		return accounts;
 	}
 
+    @Override
+    public CreditAccount updatePurchase(long id, float money) {
+    	CreditAccount creditAccountPut = repository.findById(id)
+			      .map(account -> {
+			       account.setDebt(account.getDebt()+money);
+			        return repository.save(account);
+			      })
+			      .orElseThrow(() -> new ResourceNotFoundException("not found credit account "+ id));
+    	HistoryTranfer newHistoryTranfer = new HistoryTranfer();
+    	newHistoryTranfer.setCredit(creditAccountPut);
+    	newHistoryTranfer.setMoney(money);
+    	historyRepo.save(newHistoryTranfer);
+				 return creditAccountPut;
+    }
+    @Override
+    public CreditAccount updatePayment(long id, float money) {
+    	
+    	CreditAccount creditAccountPut = repository.findById(id)
+			      .map(account -> {
+			       account.setDebt(account.getDebt()-money);
+			        return repository.save(account);
+			      })
+			      .orElseThrow(() -> new ResourceNotFoundException("not found credit account "+ id));
+    	HistoryTranfer newHistoryTranfer = new HistoryTranfer();
+    	newHistoryTranfer.setCredit(creditAccountPut);
+    	newHistoryTranfer.setMoney(0-money);
+    	historyRepo.save(newHistoryTranfer);
+				 return creditAccountPut;
+    }
 }

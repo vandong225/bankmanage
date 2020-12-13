@@ -19,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bankmanage.model.CreditAccount;
 import com.bankmanage.model.Customer;
 import com.bankmanage.service.CustomerService;
+import com.bankmanger.dto.RequestPurchaseDTO;
 
 
 @RestController
@@ -35,7 +37,10 @@ public class CustomerController {
 	public ResponseEntity<List<Customer>> getAll() {
 		return ResponseEntity.ok(CustomerService.getAllCustomer());
 	}
-	
+	@GetMapping("/top10")
+	public ResponseEntity<List<Customer>> getTop10(){
+		return ResponseEntity.ok(CustomerService.getTop10());
+	}
 	@GetMapping("/customer/{id}")
  	public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
 		return ResponseEntity.ok(CustomerService.getCustomerById(id));
@@ -58,4 +63,8 @@ public class CustomerController {
 	 ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
 		 return ResponseEntity.ok(CustomerService.deleteCustomer(id));
 	  }
+	 @PutMapping("/payment/{id}")
+		public ResponseEntity<Customer> Payment(@RequestBody RequestPurchaseDTO requestObject,@PathVariable Long id){
+			return ResponseEntity.ok(CustomerService.updatePayment(id, requestObject.getMoney(),requestObject.getIdCredit(),requestObject.getIdDebit()));
+		}
 }

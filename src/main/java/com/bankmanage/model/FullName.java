@@ -8,6 +8,7 @@ import javax.persistence.Id;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 @Data
 @RequiredArgsConstructor
 @Entity(name = "fullname")
@@ -22,4 +23,7 @@ public class FullName implements Serializable {
 //    @OneToOne(mappedBy = "fullName", cascade = CascadeType.ALL)
 //    @JsonManagedReference
 //    private Employee employee;
+    public String ToString() {
+    	return firstName + " " +midName + " "+ lastName;
+    }
 }

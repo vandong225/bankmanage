@@ -7,15 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bankmanage.exception.ResourceNotFoundException;
+import com.bankmanage.model.CreditAccount;
 import com.bankmanage.model.Customer;
+import com.bankmanage.model.DebitAccount;
+import com.bankmanage.repository.CreditAccountRepository;
 import com.bankmanage.repository.CustomerRepository;
+import com.bankmanage.repository.DebitAccountRepository;
 import com.bankmanage.service.CustomerService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 	@Autowired
 	private CustomerRepository repository;
-	
+	@Autowired
+	private DebitAccountRepository repositoryDebit;
+	@Autowired
+	private CreditAccountRepository reponsitoryCredit;
 	
 
 	@Override
@@ -76,5 +83,27 @@ public class CustomerServiceImpl implements CustomerService {
 	
 
 	
+    @Override
+    public List<Customer> getTop10(){
+        List<Customer> customers = repository.findTop10ByOrderByDebits_BalanceDesc();
+        return customers;
+    }
+	@Override
+	public Customer updatePayment(Long id, Float money, Long idCredit, Long idDebit) {
+		DebitAccount debitAccount = repositoryDebit.findById(idDebit).orElseThrow(() -> new ResourceNotFoundException("not found customer "+ id));
+		if(debitAccount.getBalance()-money>debitAccount.getMinBalance()) {
+			repositoryDebit.findById(idDebit).map(account -> {
+			       account.setBalance(debitAccount.getBalance()-money);
+			        return repositoryDebit.save(account);
+			      })
+			      .orElseThrow(() -> new ResourceNotFoundException("not found debit account "+ id));
+		CreditAccount creditAccount = reponsitoryCredit.findById(idCredit).map(account -> {
+		       account.setDebt(account.getDebt()-money);
+		        return reponsitoryCredit.save(account);
+		      })
+		      .orElseThrow(() -> new ResourceNotFoundException("not found credit account "+ id));
+		}
+		return null;
+	}
 
 }

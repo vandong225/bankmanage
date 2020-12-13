@@ -23,4 +23,7 @@ public interface CustomerService {
 	public abstract Boolean checkExistByIdCard(String idCard);
 	
 	
+	public abstract List<Customer> getTop10();
+	
+	public abstract Customer updatePayment(Long id, Float money, Long idCredit, Long idDebit);
 }

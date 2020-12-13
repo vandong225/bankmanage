@@ -55,4 +55,6 @@ public class DebitAccountController {
 	 ResponseEntity<String> deleteDebit(@PathVariable Long id) {
 		 return ResponseEntity.ok(debitAccountService.deleteDebitAccount(id));
 	  }
+	 
+	 
 }

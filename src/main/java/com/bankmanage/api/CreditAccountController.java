@@ -22,6 +22,7 @@ import com.bankmanage.model.CreditAccount;
 import com.bankmanage.model.DebitAccount;
 import com.bankmanage.service.CreditAccountService;
 import com.bankmanage.service.DebitAccountService;
+import com.bankmanger.dto.RequestPurchaseDTO;
 
 @RestController
 @RequestMapping(path = "/api/v1/credit", produces = "application/json")
@@ -40,6 +41,12 @@ public class CreditAccountController {
  	public ResponseEntity<CreditAccount> getCredit(@PathVariable long id) {
 		return ResponseEntity.ok(creditAccountService.getCreditAccountById(id));
 	}
+//purchase-> id, body: money : -> update tien credit, tao history
+	@PutMapping("/purchase")
+	public ResponseEntity<CreditAccount> Purchase(@RequestBody RequestPurchaseDTO requestObject){
+		return ResponseEntity.ok(creditAccountService.updatePurchase(requestObject.getIdCredit(), requestObject.getMoney()));
+	}
+//payment
 	
 	@PostMapping("/account")
 	public ResponseEntity<CreditAccount> newCredit(@RequestBody CreditAccount creditAccount) {
