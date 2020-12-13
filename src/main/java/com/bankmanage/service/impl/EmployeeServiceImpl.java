@@ -69,5 +69,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee employee = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found employee "+ id));
 		return employee;
 	}
+	
+	@Override
+	public Boolean checkExistByIdCard(String idCard) {
+		Employee employee = repository.findByIdCard(idCard);
+		if(employee!= null) return false;
+		return true;
+	}
 
 }

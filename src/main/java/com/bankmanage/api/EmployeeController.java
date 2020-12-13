@@ -43,7 +43,11 @@ public class EmployeeController {
 	
 	@PostMapping("/employee")
 	public ResponseEntity<Employee> newEmployee(@RequestBody Employee newEmployee) {
-		return ResponseEntity.ok(employeeService.createEmployee(newEmployee));
+		if(!employeeService.checkExistByIdCard(newEmployee.getIdCard()))
+				{
+			return ResponseEntity.ok(employeeService.createEmployee(newEmployee));
+				}
+		return ResponseEntity.noContent().build();
 	  }
 	
 	 @PutMapping("/employee/{id}")

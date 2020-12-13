@@ -19,4 +19,6 @@ public interface CustomerService {
 	public abstract List<Customer> getAllCustomer();
 
 	public abstract Customer getCustomerById(Long id);
+	
+	public abstract Boolean checkExistByIdCard(String idCard);
 }

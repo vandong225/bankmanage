@@ -43,7 +43,10 @@ public class CustomerController {
 	
 	@PostMapping("/customer")
 	public ResponseEntity<Customer> newCustomer(@RequestBody Customer newCustomer) {
+		if(CustomerService.checkExistByIdCard(newCustomer.getIdCard())) {
 		return ResponseEntity.ok(CustomerService.createCustomer(newCustomer));
+		}
+		return ResponseEntity.noContent().build();
 	  }
 	
 	 @PutMapping("/customer/{id}")

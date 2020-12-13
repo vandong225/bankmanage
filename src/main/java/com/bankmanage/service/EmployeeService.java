@@ -15,4 +15,5 @@ public interface EmployeeService {
 	   public abstract String deleteEmployee(Long id);
 	   public abstract List<Employee> getAllEmployee();
 	   public abstract Employee getEmployeeById(Long id);
+	   public abstract Boolean checkExistByIdCard(String idCard);
 }

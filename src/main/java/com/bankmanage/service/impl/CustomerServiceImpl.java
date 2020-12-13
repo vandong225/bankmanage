@@ -60,6 +60,14 @@ public class CustomerServiceImpl implements CustomerService {
 		Customer customer = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("not found customer "+ id));
 		return customer;
 	}
+	
+	@Override
+	public Boolean checkExistByIdCard(String idCard) {
+		Customer customer = repository.findByIdCard(idCard);
+		if(customer!=null)
+			return false;
+		return true;
+	}
 
 	
 
