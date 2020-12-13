@@ -3,8 +3,6 @@ package com.bankmanage.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bankmanage.model.CreditAccount;
-import com.bankmanage.model.DebitAccount;
 import com.bankmanage.service.CreditAccountService;
-import com.bankmanage.service.DebitAccountService;
+import com.bankmanger.dto.InfoDebtDTO;
+import com.bankmanger.dto.RequestPurchaseDTO;
 
 @RestController
 @RequestMapping(path = "/api/v1/credit", produces = "application/json")
@@ -40,6 +38,12 @@ public class CreditAccountController {
  	public ResponseEntity<CreditAccount> getCredit(@PathVariable long id) {
 		return ResponseEntity.ok(creditAccountService.getCreditAccountById(id));
 	}
+//purchase-> id, body: money : -> update tien credit, tao history
+	@PutMapping("/purchase")
+	public ResponseEntity<CreditAccount> Purchase(@RequestBody RequestPurchaseDTO requestObject){
+		return ResponseEntity.ok(creditAccountService.updatePurchase(requestObject.getIdCredit(), requestObject.getMoney()));
+	}
+//payment
 	
 	@PostMapping("/account")
 	public ResponseEntity<CreditAccount> newCredit(@RequestBody CreditAccount creditAccount) {
@@ -55,5 +59,15 @@ public class CreditAccountController {
 	 ResponseEntity<String> deleteCredit(@PathVariable Long id) {
 		 return ResponseEntity.ok(creditAccountService.deleteCreditAccount(id));
 	  }
+	 
+//	 @GetMapping("/debt")
+//	 ResponseEntity<List<CreditAccount>> getAccountByDebt(){
+//		 return ResponseEntity.ok(creditAccountService.getAccountByDebt());
+//	 }
+	 @GetMapping("/debt")
+	 ResponseEntity<List<InfoDebtDTO>> getAccountByDebt(){
+		 return ResponseEntity.ok(creditAccountService.getAccountsByDebt());
+	 }
+
 	 
 }

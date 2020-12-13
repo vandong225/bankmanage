@@ -14,4 +14,5 @@ public interface DebitAccountService {
 	   public abstract String deleteDebitAccount(Long id);
 	   public abstract List<DebitAccount> getAllDebitAccount();
 	   public abstract DebitAccount getDebitAccountById(Long id);
+	   public abstract List<DebitAccount> getDebitAccountByCusId(Long id); 
 }

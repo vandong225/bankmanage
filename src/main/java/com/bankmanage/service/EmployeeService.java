@@ -1,6 +1,7 @@
 package com.bankmanage.service;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.hateoas.CollectionModel;
@@ -15,4 +16,6 @@ public interface EmployeeService {
 	   public abstract String deleteEmployee(Long id);
 	   public abstract List<Employee> getAllEmployee();
 	   public abstract Employee getEmployeeById(Long id);
+	   public abstract Boolean checkExistByIdCard(String idCard);
+	   public abstract Float salary(long id, Date fromDate, Date toDate);
 }

@@ -26,7 +26,7 @@ public abstract class Person extends Timestamp implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
-   protected long id;
+	protected long id;
 	
 	@Column
 	protected String idCard;

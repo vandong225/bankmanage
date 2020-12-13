@@ -33,6 +33,7 @@ public class DebitAccountServiceImpl implements DebitAccountService {
 	@Override
 	public DebitAccount createDebitAccount(DebitAccount debitAccount) {
 		// TODO Auto-generated method stub
+		debitAccount.setStartBalance(debitAccount.getBalance());
 		DebitAccount entityModel = repository.save(debitAccount);
 		return entityModel;
 	}
@@ -71,6 +72,13 @@ public class DebitAccountServiceImpl implements DebitAccountService {
 		// TODO Auto-generated method stub
 		DebitAccount debitAccount = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("khong tim thay account" + id));
 		return debitAccount;
+	}
+
+	@Override
+	public List<DebitAccount> getDebitAccountByCusId(Long id) {
+		// TODO Auto-generated method stub
+		List<DebitAccount> listDebitAccount = repository.findAllByCustomer_Id(id);
+		return listDebitAccount;
 	}
 	
 

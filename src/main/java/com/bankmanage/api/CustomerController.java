@@ -4,8 +4,6 @@ package com.bankmanage.api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bankmanage.model.Customer;
 import com.bankmanage.service.CustomerService;
+import com.bankmanger.dto.RequestPurchaseDTO;
 
 
 @RestController
@@ -35,7 +34,10 @@ public class CustomerController {
 	public ResponseEntity<List<Customer>> getAll() {
 		return ResponseEntity.ok(CustomerService.getAllCustomer());
 	}
-	
+	@GetMapping("/top10")
+	public ResponseEntity<List<Customer>> getTop10(){
+		return ResponseEntity.ok(CustomerService.getTop10());
+	}
 	@GetMapping("/customer/{id}")
  	public ResponseEntity<Customer> getCustomer(@PathVariable long id) {
 		return ResponseEntity.ok(CustomerService.getCustomerById(id));
@@ -43,7 +45,11 @@ public class CustomerController {
 	
 	@PostMapping("/customer")
 	public ResponseEntity<Customer> newCustomer(@RequestBody Customer newCustomer) {
+		System.out.println(newCustomer);
+		if(!CustomerService.checkExistByIdCard(newCustomer.getIdCard())) {
 		return ResponseEntity.ok(CustomerService.createCustomer(newCustomer));
+		}
+		return ResponseEntity.noContent().build();
 	  }
 	
 	 @PutMapping("/customer/{id}")
@@ -55,4 +61,8 @@ public class CustomerController {
 	 ResponseEntity<String> deleteCustomer(@PathVariable Long id) {
 		 return ResponseEntity.ok(CustomerService.deleteCustomer(id));
 	  }
+	 @PutMapping("/payment")
+		public ResponseEntity<Customer> Payment(@RequestBody RequestPurchaseDTO requestObject){
+			return ResponseEntity.ok(CustomerService.updatePayment( requestObject.getMoney(),requestObject.getIdCredit(),requestObject.getIdDebit()));
+		}
 }

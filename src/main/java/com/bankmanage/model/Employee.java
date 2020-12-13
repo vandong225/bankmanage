@@ -10,7 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -23,6 +26,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE, force = true)
 @Entity(name = "employee")
+@JsonInclude(value = Include.NON_DEFAULT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee extends Person{
 	@Column
 	private int level;

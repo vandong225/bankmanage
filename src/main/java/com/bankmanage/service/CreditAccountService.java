@@ -7,6 +7,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 
 import com.bankmanage.model.CreditAccount;
+import com.bankmanger.dto.InfoDebtDTO;
 
 public interface CreditAccountService {
 	 public abstract CreditAccount createCreditAccount(CreditAccount creditAccount);
@@ -14,4 +15,8 @@ public interface CreditAccountService {
 	   public abstract String deleteCreditAccount(Long id);
 	   public abstract List<CreditAccount> getAllCreditAccount();
 	   public abstract CreditAccount getCreditAccountById(Long id);
+	   public abstract List<CreditAccount> getAccountByDebt();
+	   public abstract List<InfoDebtDTO> getAccountsByDebt();
+	   public abstract CreditAccount updatePurchase(long id, float money);
+	   public abstract CreditAccount updatePayment(long id, float money);
 }

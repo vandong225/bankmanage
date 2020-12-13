@@ -41,6 +41,11 @@ public class DebitAccountController {
 		return ResponseEntity.ok(debitAccountService.getDebitAccountById(id));
 	}
 	
+	@GetMapping("/customer/{id}")
+ 	public ResponseEntity<List<DebitAccount>> getDebitByCusId(@PathVariable long id) {
+		return ResponseEntity.ok(debitAccountService.getDebitAccountByCusId(id));
+	}
+	
 	@PostMapping("/account")
 	public ResponseEntity<DebitAccount> newDebit(@RequestBody DebitAccount debitAccount) {
 		return ResponseEntity.ok(debitAccountService.createDebitAccount(debitAccount));
@@ -55,4 +60,6 @@ public class DebitAccountController {
 	 ResponseEntity<String> deleteDebit(@PathVariable Long id) {
 		 return ResponseEntity.ok(debitAccountService.deleteDebitAccount(id));
 	  }
+	 
+	 
 }

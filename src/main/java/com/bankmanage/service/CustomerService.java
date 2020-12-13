@@ -19,4 +19,11 @@ public interface CustomerService {
 	public abstract List<Customer> getAllCustomer();
 
 	public abstract Customer getCustomerById(Long id);
+	
+	public abstract Boolean checkExistByIdCard(String idCard);
+	
+	
+	public abstract List<Customer> getTop10();
+	
+	public abstract Customer updatePayment(Float money, Long idCredit, Long idDebit);
 }

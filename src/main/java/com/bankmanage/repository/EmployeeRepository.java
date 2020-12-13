@@ -7,5 +7,5 @@ import com.bankmanage.model.Employee;
 
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
-
+	public Employee findByIdCard(String idCard);
 }

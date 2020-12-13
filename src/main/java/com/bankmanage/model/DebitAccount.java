@@ -11,7 +11,7 @@ import lombok.*;
 public class DebitAccount extends Account {
    private float rate;
    private float minBalance;
-   
+   private float startBalance;
 //   @ManyToOne
 //   @JoinColumn(name="customer_id")
 //   private Customer customer;

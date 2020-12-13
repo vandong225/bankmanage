@@ -7,12 +7,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
 @Entity(name = "address")
+@JsonInclude(value = Include.NON_DEFAULT)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Address implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
