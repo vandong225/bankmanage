@@ -21,4 +21,6 @@ public interface CustomerService {
 	public abstract Customer getCustomerById(Long id);
 	
 	public abstract Boolean checkExistByIdCard(String idCard);
+	
+	
 }

@@ -2,6 +2,7 @@ package com.bankmanage.service.impl;
 
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bankmanage.exception.ResourceNotFoundException;
+import com.bankmanage.model.CreditAccount;
+import com.bankmanage.model.DebitAccount;
 import com.bankmanage.model.Employee;
+import com.bankmanage.repository.CreditAccountRepository;
+import com.bankmanage.repository.DebitAccountRepository;
 import com.bankmanage.repository.EmployeeRepository;
 import com.bankmanage.service.EmployeeService;
 
@@ -18,6 +23,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository repository;
+	
+	@Autowired
+	private DebitAccountRepository debitAccountRepository;
+	
+	@Autowired
+	private CreditAccountRepository creditAccountRepository;
 	
 //	@Autowired
 //	private EmployeeModelAssembler assembler;
@@ -75,6 +86,19 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee employee = repository.findByIdCard(idCard);
 		if(employee!= null) return false;
 		return true;
+	}
+
+	@Override
+	public Float salary(long id, Date fromDate, Date toDate) {
+		// TODO Auto-generated method stub
+		List<CreditAccount> creditAccount= creditAccountRepository.findAllByEmployeeByDate(fromDate, toDate, id);
+		List<DebitAccount> debitAccount= debitAccountRepository.findAllByEmployeeByDate(fromDate, toDate, id);
+		float debit = 0;
+		for(DebitAccount debitAcc : debitAccount) {
+			debit += debitAcc.getStartBalance() * 0.02;
+		}
+		return debit + creditAccount.size()*500;
+		
 	}
 
 }

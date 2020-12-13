@@ -1,6 +1,7 @@
 package com.bankmanage.api;
 
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bankmanage.model.Employee;
+import com.bankmanage.service.CreditAccountService;
+import com.bankmanage.service.DebitAccountService;
 import com.bankmanage.service.EmployeeService;
 
 
@@ -29,6 +33,8 @@ import com.bankmanage.service.EmployeeService;
 public class EmployeeController {
 	@Autowired
 	private EmployeeService employeeService;
+	private DebitAccountService debitAccountService;
+	private CreditAccountService creditAccountService;
 	
 	@GetMapping("/employees")
 	@ResponseStatus(code = HttpStatus.OK)
@@ -58,5 +64,10 @@ public class EmployeeController {
 	 @DeleteMapping("/employee/{id}")
 	 ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
 		 return ResponseEntity.ok(employeeService.deleteEmployee(id));
-	  }
+	 }
+	 
+	 @GetMapping("/salary/{id}")
+	 ResponseEntity<Float> salaryEmployee( @PathVariable Long id, @RequestParam Date fromDate, @RequestParam Date toDate){
+		 return ResponseEntity.ok(employeeService.salary(id, fromDate, toDate));
+	 }
 }

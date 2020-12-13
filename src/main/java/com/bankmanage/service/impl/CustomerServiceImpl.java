@@ -64,10 +64,16 @@ public class CustomerServiceImpl implements CustomerService {
 	@Override
 	public Boolean checkExistByIdCard(String idCard) {
 		Customer customer = repository.findByIdCard(idCard);
-		if(customer!=null)
+		if(customer!=null) 
+			return false;
+		int sizeCredit = customer.getCredits().size();
+		int sizeDebit = customer.getDebits().size();
+		if(sizeCredit>=2||sizeDebit>=3)
 			return false;
 		return true;
 	}
+	
+	
 
 	
 

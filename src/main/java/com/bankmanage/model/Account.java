@@ -25,6 +25,7 @@ public abstract class Account extends Timestamp implements Serializable {
     @GeneratedValue()
     @Column(name = "id", updatable = false, nullable = false)
 	private Long id;
+	private float startBalance;
    private float balance;
    @Enumerated(EnumType.STRING)
 	private final TypeAccount type;
